@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Email Response Automation | Adrian Lance Damalerio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .back-btn {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 40vh;
+            min-height: 350px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            padding: 0 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Main Content */
+        .main-content {
+            width: 100%;
+        }
+
+        .section {
+            padding: 5rem 0;
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #6b7280;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* Architecture Section */
+        .architecture {
+            background: #f8fafc;
+        }
+
+        .arch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .arch-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #2563eb;
+            transition: transform 0.3s ease;
+        }
+
+        .arch-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .arch-card h4 {
+            color: #1f2937;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arch-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Impact Metrics */
+        .metrics {
+            background: #1f2937;
+            color: white;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #60a5fa;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .arch-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tags {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Lance's Portfolio</div>
+            <div class="nav-links">
+                <a href="../index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>AI-Powered Email Response Automation</h1>
+            <p class="subtitle">Intelligent Email Assistant with Multi-Platform Integration for Eskwelabs</p>
+            
+            <div class="tags">
+                <span class="tag">n8n Automation</span>
+                <span class="tag">AI Agents</span>
+                <span class="tag">RAG Implementation</span>
+                <span class="tag">Vector Database</span>
+                <span class="tag">Google APIs</span>
+                <span class="tag">Discord Integration</span>
+                <span class="tag">Workflow Automation</span>
+                <span class="tag">Email Processing</span>
+                <span class="tag">LLM Integration</span>
+                <span class="tag">Context-Aware AI</span>
+                <span class="tag">Multi-Platform</span>
+                <span class="tag">Prompt Engineering</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <!-- Project Overview -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Project Overview</h2>
+                <p class="section-subtitle">
+                    Advanced email automation system built specifically for Eskwelabs using n8n workflow automation, AI agents, and RAG technology to intelligently process incoming emails and generate contextually appropriate responses based on comprehensive strategic memos.
+                </p>
+                
+                <div style="background: #f8fafc; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid #2563eb;">
+                    <h3 style="color: #1f2937; margin-bottom: 1rem; font-size: 1.2rem;">🏢 Built for Eskwelabs Operations</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563; margin-bottom: 1rem;">
+                        Developed during my Education Innovation Fellowship at <strong>Eskwelabs</strong> to revolutionize email communication workflows. The system leverages comprehensive strategic memos covering all Eskwelabs programs (DSF, DAB, EIF, Learning Sprints) as the knowledge base for intelligent response generation.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563;">
+                        This solution addresses the challenge of maintaining consistent, accurate, and contextually relevant email responses across multiple educational programs while reducing manual workload by over 80%.
+                    </p>
+                </div>
+
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563; margin-bottom: 2rem;">
+                    The system employs a sophisticated multi-agent architecture built on n8n automation platform, integrating AI-powered email categorization, RAG-based context retrieval from Eskwelabs strategic memos, and intelligent response generation. The workflow seamlessly connects Google Gmail APIs, vector database storage, and Discord notifications for comprehensive email management.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563;">
+                    By utilizing advanced prompt engineering and context-aware AI agents, the platform ensures responses maintain Eskwelabs' brand voice while providing accurate information about bootcamps, fellowships, learning sprints, admissions processes, and program details. The system delivers contextually appropriate responses in under 2 minutes, transforming email communication efficiency.
+                </p>
+            </div>
+        </section>
+
+        <!-- Workflow Architecture -->
+        <section class="section architecture">
+            <div class="container">
+                <h2 class="section-title">Workflow Architecture & Implementation</h2>
+                <p class="section-subtitle">
+                    Comprehensive n8n-powered automation workflow featuring AI agents, RAG implementation, and multi-platform integration
+                </p>
+                
+                <!-- Workflow Overview -->
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); margin-bottom: 3rem;">
+                    <h3 style="color: #1f2937; margin-bottom: 1.5rem; font-size: 1.4rem; text-align: center;">⚡ Intelligent Email Processing Workflow</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">1</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">Email Ingestion</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">Gmail API monitors incoming emails and triggers n8n workflow automation with email content and metadata</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">2</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">AI Categorization</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">AI agent analyzes email content and categorizes into EIF, DAB, DSF, Learning Sprints, or Uncategorized</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">3</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">Context Retrieval</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">RAG system retrieves relevant information from Eskwelabs strategic memos based on email category</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">4</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">Response Generation</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">AI agent generates contextually appropriate response using retrieved strategic memo content</p>
+                        </div>
+
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">5</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">Multi-Platform Delivery</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">Automated delivery via Gmail and Discord notifications with draft email generation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Architecture Components -->
+                <h3 style="color: #1f2937; margin-bottom: 2rem; font-size: 1.3rem; text-align: center;">System Architecture Components</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-cogs" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">n8n Workflow Canvas</h4>
+                        <p>Visual workflow automation with node-based AI agent orchestration and API integrations</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-robot" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">AI Agent Network</h4>
+                        <p>Specialized agents for categorization, RAG retrieval, and response generation with prompt engineering</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-cloud" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">Google Workspace Integration</h4>
+                        <p>Gmail API for email processing and Google Drive for strategic memo document management</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Architecture -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Technical Architecture & AI Implementation</h2>
+                <p class="section-subtitle">
+                    Advanced AI workflow combining RAG technology, vector databases, and intelligent agent orchestration for context-aware email automation
+                </p>
+                
+                <div class="arch-grid">
+                    <div class="arch-card">
+                        <h4>🤖 Multi-Agent AI Orchestration</h4>
+                        <p>Specialized AI agents for email categorization (EIF, DAB, DSF, Learning Sprints), RAG-based context retrieval, and intelligent response generation using advanced prompt engineering techniques</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🔍 RAG Implementation with Strategic Memos</h4>
+                        <p>Retrieval-Augmented Generation system using Eskwelabs comprehensive strategic memos as knowledge base, enabling contextually accurate responses about all programs and policies</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🔄 n8n Workflow Automation</h4>
+                        <p>Visual workflow automation platform orchestrating complex AI agent interactions, API calls, data processing, and multi-platform integrations with robust error handling</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>📊 Vector Database & Knowledge Management</h4>
+                        <p>Sophisticated vector storage and retrieval system for strategic memo content, enabling semantic search and contextual information extraction for accurate response generation</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🌐 Google API Integration Suite</h4>
+                        <p>Comprehensive Google Workspace integration including Gmail API for email processing, Google Drive for document management, and secure OAuth authentication workflows</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>💬 Multi-Platform Communication</h4>
+                        <p>Integrated Discord notifications and Gmail automation enabling seamless communication across platforms with real-time status updates and response tracking</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Features -->
+        <section class="section architecture">
+            <div class="container">
+                <h2 class="section-title">Key Features & Capabilities</h2>
+                <p class="section-subtitle">
+                    Comprehensive automation features designed for intelligent email management and context-aware response generation
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">🧠 Intelligent Email Categorization</h3>
+                        <ul class="feature-list">
+                            <li>AI-powered categorization into EIF, DAB, DSF, Learning Sprints, or Uncategorized</li>
+                            <li>Advanced prompt engineering for accurate program identification</li>
+                            <li>Context-aware analysis of email content and intent recognition</li>
+                            <li>Automatic routing to appropriate strategic memo sections</li>
+                            <li>Fallback handling for uncategorized or complex inquiries</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">📚 RAG-Powered Knowledge Retrieval</h3>
+                        <ul class="feature-list">
+                            <li>Comprehensive Eskwelabs strategic memos as knowledge base</li>
+                            <li>Semantic search and context retrieval from program documentation</li>
+                            <li>Real-time information extraction about bootcamps, fellowships, and policies</li>
+                            <li>Contextual relevance scoring and information ranking</li>
+                            <li>Dynamic content updates with version control for strategic memos</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">⚡ Advanced Workflow Automation</h3>
+                        <ul class="feature-list">
+                            <li>n8n visual workflow canvas with drag-and-drop automation design</li>
+                            <li>Complex conditional logic and branching for different email scenarios</li>
+                            <li>Error handling and retry mechanisms for robust operation</li>
+                            <li>Real-time monitoring and workflow performance analytics</li>
+                            <li>Scalable architecture supporting high-volume email processing</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">🔗 Multi-Platform Integration</h3>
+                        <ul class="feature-list">
+                            <li>Gmail API integration for automated email monitoring and response</li>
+                            <li>Discord webhook notifications for real-time team updates</li>
+                            <li>Google Drive connectivity for strategic memo document access</li>
+                            <li>Secure OAuth2 authentication and API key management</li>
+                            <li>Cross-platform data synchronization and status tracking</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">🎯 Context-Aware Response Generation</h3>
+                        <ul class="feature-list">
+                            <li>AI-generated responses maintaining Eskwelabs brand voice and tone</li>
+                            <li>Program-specific information delivery based on email categorization</li>
+                            <li>Personalized responses addressing specific inquirer concerns</li>
+                            <li>Professional formatting and structure consistency</li>
+                            <li>Quality validation and response confidence scoring</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">📈 Performance Monitoring & Analytics</h3>
+                        <ul class="feature-list">
+                            <li>Real-time workflow execution monitoring and error tracking</li>
+                            <li>Response time analytics and performance optimization metrics</li>
+                            <li>Email categorization accuracy measurement and improvement</li>
+                            <li>Usage statistics and automation efficiency reporting</li>
+                            <li>Continuous learning and workflow refinement capabilities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Stack -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Technical Stack</h2>
+                <p class="section-subtitle">
+                    Cutting-edge automation and AI technologies optimized for intelligent email processing and multi-platform integration
+                </p>
+                
+                <div class="tech-stack">
+                    <span class="tech-item">n8n Automation</span>
+                    <span class="tech-item">OpenAI GPT-4</span>
+                    <span class="tech-item">LangChain</span>
+                    <span class="tech-item">Vector Database</span>
+                    <span class="tech-item">Gmail API</span>
+                    <span class="tech-item">Google Drive API</span>
+                    <span class="tech-item">Discord Webhooks</span>
+                    <span class="tech-item">OAuth2</span>
+                    <span class="tech-item">RAG Architecture</span>
+                    <span class="tech-item">Prompt Engineering</span>
+                    <span class="tech-item">AI Agents</span>
+                    <span class="tech-item">Workflow Orchestration</span>
+                    <span class="tech-item">JSON Processing</span>
+                    <span class="tech-item">REST APIs</span>
+                    <span class="tech-item">Cloud Integration</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Impact -->
+        <section class="section metrics">
+            <div class="container">
+                <h2 class="section-title">Business Impact & Results</h2>
+                <p class="section-subtitle">
+                    Quantifiable improvements in email response efficiency and communication quality for Eskwelabs operations
+                </p>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-number">80%+</span>
+                        <span class="metric-label">Reduction in Response Time</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">4</span>
+                        <span class="metric-label">Program Categories Automated</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">95%+</span>
+                        <span class="metric-label">Categorization Accuracy</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">2min</span>
+                        <span class="metric-label">Average Response Generation</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <p style="font-size: 1.2rem; opacity: 0.9; max-width: 800px; margin: 0 auto;">
+                        The AI-Powered Email Response Automation system transformed Eskwelabs' communication workflows by enabling 
+                        intelligent, context-aware email responses that maintain brand consistency while dramatically reducing manual 
+                        effort. The platform ensures accurate information delivery across all educational programs through sophisticated 
+                        RAG implementation and strategic memo integration.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        
+    </main>
+
+    <!-- JavaScript for smooth interactions -->
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.arch-card, .feature-card, .metric-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Dynamic navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
