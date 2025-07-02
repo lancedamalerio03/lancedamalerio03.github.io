@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIVIX - Civic Tech Platform | Adrian Lance Damalerio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .back-btn {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 40vh;
+            min-height: 350px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            padding: 0 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #2563eb;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #2563eb;
+        }
+
+        /* Main Content */
+        .main-content {
+            width: 100%;
+        }
+
+        .section {
+            padding: 5rem 0;
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #6b7280;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+
+        @media (min-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        .main-column {
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 100%;
+        }
+
+        /* Architecture Section */
+        .architecture {
+            background: #f8fafc;
+        }
+
+        .arch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .arch-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #2563eb;
+            transition: transform 0.3s ease;
+        }
+
+        .arch-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .arch-card h4 {
+            color: #1f2937;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arch-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Impact Metrics */
+        .metrics {
+            background: #1f2937;
+            color: white;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #60a5fa;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Sidebar Styles */
+        .sidebar-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .arch-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tags {
+                justify-content: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Lance's Portfolio</div>
+            <div class="nav-links">
+                <a href="../index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>CIVIX - Civic Tech Platform</h1>
+            <p class="subtitle">GPT-Powered Political Literacy Tool (2nd Place Winner)</p>
+            
+            <div class="tags">
+                <span class="tag">React.js</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">Firebase</span>
+                <span class="tag">OpenAI GPT-4o-mini</span>
+                <span class="tag">Express.js</span>
+                <span class="tag">Tailwind CSS</span>
+                <span class="tag">RESTful API</span>
+                <span class="tag">Full-Stack Development</span>
+                <span class="tag">Civic Tech</span>
+                <span class="tag">Political Literacy</span>
+                <span class="tag">Hackathon Winner</span>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="https://civix.netlify.app/" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-external-link-alt"></i>
+                    View Live App
+                </a>
+                <a href="https://github.com/adrianlance/civix" target="_blank" class="btn btn-secondary">
+                    <i class="fab fa-github"></i>
+                    View Code
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <!-- Project Overview -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Project Overview</h2>
+                <p class="section-subtitle">
+                    Award-winning civic technology platform that promotes political literacy and combats misinformation in Philippine politics through interactive features, verified information, and AI-powered assistance.
+                </p>
+                
+                <div style="background: #f8fafc; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid #2563eb;">
+                    <h3 style="color: #1f2937; margin-bottom: 1rem; font-size: 1.2rem;">🏆 Hackathon Achievement & Impact</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563; margin-bottom: 1rem;">
+                        <strong>2nd Place Winner</strong> at DLSU SIKAPTala 2025 Hackathon, competing against innovative tech solutions addressing societal challenges. CIVIX stood out for its comprehensive approach to political education and misinformation detection in the Philippines.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563;">
+                        The platform addresses critical issues in Philippine democracy: voter education, political accountability, and the spread of misinformation during election cycles, providing citizens with tools to make informed political decisions.
+                    </p>
+                </div>
+
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563; margin-bottom: 2rem;">
+                    CIVIX is a comprehensive full-stack civic technology platform built with React and Node.js, featuring a Firebase-powered backend and OpenAI GPT-4o-mini integration. The application provides Filipino citizens with verified politician profiles, interactive misinformation detection games, AI-powered political Q&A, and community-driven fact-checking capabilities.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563;">
+                    The platform emphasizes user verification through ID validation, ensuring credible community participation while delivering responsive design across desktop and mobile devices. With features like 5-star rating systems, voting history tracking, and real-time political education, CIVIX empowers citizens to engage meaningfully with Philippine democratic processes.
+                </p>
+            </div>
+        </section>
+
+        <!-- Application Screenshots -->
+        <section class="section architecture">
+            <div class="container">
+                <h2 class="section-title">Application Interface & User Experience</h2>
+                <p class="section-subtitle">
+                    Modern, responsive React interface designed for accessibility and user engagement across all devices
+                </p>
+                
+                <!-- User Journey Overview -->
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); margin-bottom: 3rem;">
+                    <h3 style="color: #1f2937; margin-bottom: 1.5rem; font-size: 1.4rem; text-align: center;">🎯 Complete User Journey</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">1</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">Explore Politicians</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">Browse verified politician profiles with voting history, authored bills, and performance metrics</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">2</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">Test Knowledge</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">Interactive misinformation detection game with real political scenarios and explanations</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">3</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">Ask AI Assistant</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">Get instant answers about Philippine politics through GPT-powered conversational interface</p>
+                        </div>
+                        
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-weight: bold; font-size: 1.2rem;">4</div>
+                            <h4 style="color: #1f2937; margin-bottom: 0.5rem; font-size: 1rem;">Rate & Verify</h4>
+                            <p style="color: #6b7280; font-size: 0.9rem; line-height: 1.4;">Rate politicians on integrity, transparency, and effectiveness with verified identity</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Application Screenshots -->
+                <h3 style="color: #1f2937; margin-bottom: 2rem; font-size: 1.3rem; text-align: center;">Interface Screenshots</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">Home Dashboard</h4>
+                        <p>Trending politicians, search functionality, and quick access to key features</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">Politician Profiles</h4>
+                        <p>Comprehensive politician data with voting history and performance metrics</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">Debunking Game</h4>
+                        <p>Interactive quiz interface with progress tracking and educational feedback</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Architecture -->
+        <section class="section architecture">
+            <div class="container">
+                <h2 class="section-title">System Architecture & Technical Implementation</h2>
+                <p class="section-subtitle">
+                    Modern full-stack architecture with React frontend, Node.js backend, and Firebase cloud services integration
+                </p>
+                
+                <div class="arch-grid">
+                    <div class="arch-card">
+                        <h4>⚛️ React Frontend</h4>
+                        <p>Modern React 18 application with functional components, hooks, and Context API for state management. Implements responsive design with Tailwind CSS and mobile-first approach.</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🚀 Node.js Backend</h4>
+                        <p>RESTful API server built with Express.js, featuring modular route handling, middleware integration, and comprehensive error handling for scalable backend services.</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🔥 Firebase Integration</h4>
+                        <p>Firebase Admin SDK for secure server-side operations, Firestore for data storage, and Firebase Authentication for user verification and identity management.</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🤖 OpenAI GPT-4o-mini</h4>
+                        <p>AI chatbot integration through OpenRouter API with conversation history, context-aware responses, and specialized Philippine political knowledge prompting.</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>📱 Responsive Design</h4>
+                        <p>Mobile-first responsive design with Tailwind CSS, optimized for all screen sizes, touch interactions, and cross-browser compatibility including iOS Safari.</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🔐 Security & Verification</h4>
+                        <p>User identity verification system with ID document upload, secure API endpoints, CORS configuration, and environment variable protection.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Features -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Key Features & Capabilities</h2>
+                <p class="section-subtitle">
+                    Comprehensive civic engagement tools designed to promote political literacy and informed decision-making
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">👥 Politician Profile Database</h3>
+                        <ul class="feature-list">
+                            <li>Comprehensive politician profiles with photos, party affiliations, and districts</li>
+                            <li>Detailed voting history tracking with bill names and stance positions</li>
+                            <li>Authored bills database with status tracking and implementation progress</li>
+                            <li>Controversy and accountability sections with fact-checked information</li>
+                            <li>5-star rating system across integrity, transparency, and effectiveness metrics</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">🎮 Misinformation Detection Game</h3>
+                        <ul class="feature-list">
+                            <li>Interactive quiz format with real political scenarios and images</li>
+                            <li>Progress tracking with visual indicators and scoring system</li>
+                            <li>Educational explanations for each question with fact-based corrections</li>
+                            <li>Multiple-choice questions testing media literacy and critical thinking</li>
+                            <li>Immediate feedback system with detailed explanations for learning</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">🤖 AI-Powered Political Assistant</h3>
+                        <ul class="feature-list">
+                            <li>GPT-4o-mini integration for real-time political question answering</li>
+                            <li>Conversation history maintenance for contextual responses</li>
+                            <li>Specialized prompting for Philippine political knowledge</li>
+                            <li>Mobile-optimized chat interface with smooth scrolling</li>
+                            <li>Markdown support for formatted responses and structured information</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">✅ User Verification System</h3>
+                        <ul class="feature-list">
+                            <li>Identity verification through government-issued ID upload</li>
+                            <li>Secure document processing with Firebase Cloud Storage</li>
+                            <li>User profile management with verification status tracking</li>
+                            <li>Account security features with notification preferences</li>
+                            <li>Privacy policy compliance and data protection measures</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">📱 Mobile-First Experience</h3>
+                        <ul class="feature-list">
+                            <li>Responsive design optimized for all screen sizes and devices</li>
+                            <li>Bottom navigation for intuitive mobile app-like experience</li>
+                            <li>Touch-optimized interactions with smooth animations</li>
+                            <li>Progressive Web App capabilities for offline functionality</li>
+                            <li>Cross-browser compatibility including iOS Safari support</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">🔍 Advanced Search & Discovery</h3>
+                        <ul class="feature-list">
+                            <li>Real-time search functionality across politicians and content</li>
+                            <li>Advanced filtering by position, location, and performance metrics</li>
+                            <li>Sorting capabilities by name, rating, and other criteria</li>
+                            <li>Trending politicians section highlighting current relevance</li>
+                            <li>Category-based content exploration and learning paths</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Stack -->
+        <section class="section architecture">
+            <div class="container">
+                <h2 class="section-title">Technical Stack</h2>
+                <p class="section-subtitle">
+                    Modern, production-ready technology stack optimized for performance, scalability, and user experience
+                </p>
+                
+                <div class="tech-stack">
+                    <span class="tech-item">React 18</span>
+                    <span class="tech-item">Node.js</span>
+                    <span class="tech-item">Express.js</span>
+                    <span class="tech-item">Firebase</span>
+                    <span class="tech-item">Firestore</span>
+                    <span class="tech-item">OpenAI GPT-4o-mini</span>
+                    <span class="tech-item">Tailwind CSS</span>
+                    <span class="tech-item">React Router</span>
+                    <span class="tech-item">Axios</span>
+                    <span class="tech-item">React Markdown</span>
+                    <span class="tech-item">Lucide React</span>
+                    <span class="tech-item">CORS</span>
+                    <span class="tech-item">Dotenv</span>
+                    <span class="tech-item">Netlify</span>
+                    <span class="tech-item">Render</span>
+                    <span class="tech-item">Git</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Impact -->
+        <section class="section metrics">
+            <div class="container">
+                <h2 class="section-title">Impact & Results</h2>
+                <p class="section-subtitle">
+                    Demonstrated impact in promoting civic engagement and political literacy in the Philippines
+                </p>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-number">2nd</span>
+                        <span class="metric-label">Place at DLSU SIKAPTala 2025</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">6+</span>
+                        <span class="metric-label">Core Features Implemented</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">100%</span>
+                        <span class="metric-label">Mobile Responsive</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">Live</span>
+                        <span class="metric-label">Production Deployment</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <p style="font-size: 1.2rem; opacity: 0.9; max-width: 800px; margin: 0 auto;">
+                        CIVIX represents a significant contribution to Philippine civic technology, addressing critical challenges in political literacy, misinformation detection, and citizen engagement. The platform's recognition at a major hackathon validates its potential impact on democratic participation and informed voting in the Philippines.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- JavaScript for smooth interactions -->
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.arch-card, .feature-card, .metric-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Dynamic navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Add hover effects to sidebar links
+        document.querySelectorAll('.sidebar-card a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.background = '#e5e7eb';
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.background = '#f3f4f6';
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
