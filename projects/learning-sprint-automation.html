@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Sprint Analytics Platform | Adrian Lance Damalerio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        .back-btn {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh;
+            min-height: 350px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            padding: 0 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            width: 100%;
+        }
+
+        .section {
+            padding: 5rem 0;
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #6b7280;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* Architecture Section */
+        .architecture {
+            background: #f8fafc;
+        }
+
+        .arch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .arch-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #2563eb;
+            transition: transform 0.3s ease;
+        }
+
+        .arch-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .arch-card h4 {
+            color: #1f2937;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arch-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Impact Metrics */
+        .metrics {
+            background: #1f2937;
+            color: white;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #60a5fa;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Methodology Section */
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .methodology-step {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step-title {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .step-description {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .arch-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tags {
+                justify-content: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Lance's Portfolio</div>
+            <div class="nav-links">
+                <a href="../index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Learning Sprint Analytics Platform</h1>
+            <p class="subtitle">End-to-End Automation Tool for Educational Analytics & Report Generation</p>
+            
+            <div class="tags">
+                <span class="tag">Automation</span>
+                <span class="tag">AI Workflows</span>
+                <span class="tag">CRISP-DM</span>
+                <span class="tag">Data Architecture</span>
+                <span class="tag">Data Analytics</span>
+                <span class="tag">Data Engineering</span>
+                <span class="tag">Prompt Engineering</span>
+                <span class="tag">Report Generation</span>
+                <span class="tag">NLP</span>
+                <span class="tag">Google APIs</span>
+                <span class="tag">OAuth Integration</span>
+            </div>
+
+            <div class="cta-buttons">
+                <p style="font-size: 1.1rem; opacity: 0.9; margin-top: 1rem;">
+                    Scroll down to explore the technical implementation and see the application in action
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <!-- Project Overview -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Project Overview</h2>
+                <p class="section-subtitle">
+                    Comprehensive educational analytics automation platform designed to process learner feedback from corporate training 
+                    bootcamps and automatically generate professional Google Slides reports with AI-powered insights, enabling scalable 
+                    analysis for any current or future educational program at Eskwelabs.
+                </p>
+                
+                <div style="background: #f8fafc; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; border-left: 4px solid #2563eb;">
+                    <h3 style="color: #1f2937; margin-bottom: 1rem; font-size: 1.2rem;">🎯 Project Purpose & Context</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563; margin-bottom: 1rem;">
+                        Developed during my Education Innovation Fellowship at <strong>Eskwelabs</strong> to revolutionize the manual reporting 
+                        process that previously required days of work. The platform was tested and validated using data from previous  
+                        learning sprints, proving its effectiveness in processing diverse educational feedback structures.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563;">
+                        This scalable solution empowers Eskwelabs to automatically analyze feedback from any learning sprint format - past, 
+                        present, or future - delivering consistent, professional reports that enhance stakeholder communication and enable 
+                        data-driven educational improvements.
+                    </p>
+                </div>
+
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563; margin-bottom: 2rem;">
+                    Built as a comprehensive Streamlit-based platform integrating advanced data processing pipelines with NLP analysis, 
+                    automated visualization generation, and seamless Google Workspace integration. The system processes multiple data 
+                    formats and survey structures while maintaining analytical rigor and professional presentation standards.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563;">
+                    The platform delivers publication-ready reports in under 5 minutes, representing a 90%+ reduction in manual effort 
+                    while enabling consistent analytical frameworks across diverse training programs and stakeholder requirements.
+                </p>
+            </div>
+        </section>
+
+        <!-- Application Screenshots -->
+        <section class="section architecture">
+            <div class="container">
+                <h2 class="section-title">Application Interface & Workflow</h2>
+                <p class="section-subtitle">
+                    Streamlit-based automation platform showcasing the end-to-end report generation pipeline and user experience
+                </p>
+                
+                <!-- Methodology Overview -->
+                <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); margin-bottom: 3rem;">
+                    <h3 style="color: #1f2937; margin-bottom: 1.5rem; font-size: 1.4rem; text-align: center;">📊 CRISP-DM Analytics Methodology</h3>
+                    
+                    <div class="methodology-grid">
+                        <div class="methodology-step">
+                            <div class="step-number">1</div>
+                            <h4 class="step-title">Data Understanding</h4>
+                            <p class="step-description">Intelligent classification of survey columns into Programs, Modules, People, and Learner Experience components using regex patterns</p>
+                        </div>
+                        
+                        <div class="methodology-step">
+                            <div class="step-number">2</div>
+                            <h4 class="step-title">Data Preparation</h4>
+                            <p class="step-description">Automated cleaning, validation, and standardization of numerical ratings, text responses, and quiz scores for analysis</p>
+                        </div>
+                        
+                        <div class="methodology-step">
+                            <div class="step-number">3</div>
+                            <h4 class="step-title">Modeling & Analysis</h4>
+                            <p class="step-description">Multi-modal analysis using statistical methods for quantitative data and GPT-4o NLP for qualitative insights and topic extraction</p>
+                        </div>
+                        
+                        <div class="methodology-step">
+                            <div class="step-number">4</div>
+                            <h4 class="step-title">Evaluation</h4>
+                            <p class="step-description">AI-powered validation of insights with automated generation of contextually appropriate visualizations and actionable recommendations</p>
+                        </div>
+
+                        <div class="methodology-step">
+                            <div class="step-number">5</div>
+                            <h4 class="step-title">Deployment</h4>
+                            <p class="step-description">Seamless Google Slides integration with template copying, placeholder replacement, and cloud-based report delivery</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Application Screenshots -->
+                <h3 style="color: #1f2937; margin-bottom: 2rem; font-size: 1.3rem; text-align: center;">Interface Screenshots</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">Streamlit Interface</h4>
+                        <p>Main dashboard with file upload and configuration options</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">Analysis Pipeline</h4>
+                        <p>Real-time processing progress and analytics generation</p>
+                    </div>
+                    <div style="background: #f8fafc; padding: 3rem; border-radius: 15px; text-align: center; color: #6b7280; border: 2px dashed #d1d5db;">
+                        <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.5rem; color: #374151;">Generated Reports</h4>
+                        <p>Professional Google Slides output with insights and visualizations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Architecture -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">System Architecture & Technical Implementation</h2>
+                <p class="section-subtitle">
+                    Enterprise-grade architecture featuring advanced AI workflows, cloud integration, and scalable data processing pipelines
+                </p>
+                
+                <div class="arch-grid">
+                    <div class="arch-card">
+                        <h4>🔄 CRISP-DM Pipeline</h4>
+                        <p>Industry-standard data mining methodology with automated data understanding, preparation, modeling, and evaluation phases for educational analytics</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🤖 AI-Powered NLP Engine</h4>
+                        <p>GPT-4o integration for sentiment analysis, topic extraction, and automated insight generation from qualitative feedback responses</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>📊 Dynamic Visualization System</h4>
+                        <p>AI generates contextually appropriate charts with custom styling, threshold lines, and statistical annotations using matplotlib/seaborn</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🔐 OAuth2 Authentication</h4>
+                        <p>Secure Google Workspace integration with custom OAuth flow implementation optimized for Streamlit Cloud deployment environments</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>☁️ Google Cloud Integration</h4>
+                        <p>Seamless API connectivity to Google Slides, Drive, and Sheets with automated file management, permission handling, and cloud storage</p>
+                    </div>
+                    <div class="arch-card">
+                        <h4>🎯 Modular Analysis Framework</h4>
+                        <p>Component-based architecture enabling independent analysis of Programs, Modules, People ratings, Quiz performance, and Learning Experience metrics</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Features -->
+        <section class="section architecture">
+            <div class="container">
+                <h2 class="section-title">Key Features & Capabilities</h2>
+                <p class="section-subtitle">
+                    Advanced automation features designed for comprehensive educational analytics and professional report generation
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">🔍 Intelligent Data Classification</h3>
+                        <ul class="feature-list">
+                            <li>Automated categorization of survey columns into Programs, Modules, People, and Experience components</li>
+                            <li>Regex-based pattern recognition for different question types and response formats</li>
+                            <li>Dynamic handling of varying survey structures across different bootcamp formats</li>
+                            <li>Smart detection of numerical ratings, text responses, and quiz assessment data</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">📈 Advanced Statistical Analysis</h3>
+                        <ul class="feature-list">
+                            <li>CSAT scoring with customizable thresholds and performance benchmarking</li>
+                            <li>Net Promoter Score calculation with promoter, passive, and detractor classification</li>
+                            <li>Quiz performance analytics with automated scoring against question banks</li>
+                            <li>Statistical significance testing and confidence interval calculations</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">🧠 AI-Driven Qualitative Analysis</h3>
+                        <ul class="feature-list">
+                            <li>GPT-4o powered topic extraction and sentiment analysis from open-ended responses</li>
+                            <li>Automated generation of actionable recommendations and improvement suggestions</li>
+                            <li>Context-aware insight generation tailored to educational program evaluation</li>
+                            <li>Dynamic Python code generation for context-specific data visualizations</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">📊 Automated Visualization Creation</h3>
+                        <ul class="feature-list">
+                            <li>AI-generated matplotlib/seaborn charts with publication-quality styling</li>
+                            <li>Dynamic threshold lines, statistical annotations, and performance indicators</li>
+                            <li>Contextually appropriate chart types based on data characteristics and analysis goals</li>
+                            <li>Automated chart embedding into Google Slides with precise positioning and scaling</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">☁️ Google Workspace Integration</h3>
+                        <ul class="feature-list">
+                            <li>Seamless Google Slides template copying and customization workflows</li>
+                            <li>Automated placeholder replacement with dynamic content and insights</li>
+                            <li>Cloud-based file management with secure permission handling</li>
+                            <li>Real-time collaboration features and stakeholder sharing capabilities</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3 class="feature-title">🎯 Production-Ready Deployment</h3>
+                        <ul class="feature-list">
+                            <li>Streamlit Cloud hosting with scalable architecture and error handling</li>
+                            <li>OAuth2 security implementation for enterprise-grade authentication</li>
+                            <li>Modular codebase supporting multiple bootcamp formats and evaluation frameworks</li>
+                            <li>End-to-end automation delivering professional reports in under 5 minutes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Stack -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Technical Stack</h2>
+                <p class="section-subtitle">
+                    Modern, enterprise-grade technology stack optimized for educational analytics and cloud-based automation
+                </p>
+                
+                <div class="tech-stack">
+                    <span class="tech-item">Python 3.11</span>
+                    <span class="tech-item">Streamlit</span>
+                    <span class="tech-item">pandas</span>
+                    <span class="tech-item">OpenAI GPT-4o</span>
+                    <span class="tech-item">Google APIs</span>
+                    <span class="tech-item">OAuth2</span>
+                    <span class="tech-item">matplotlib</span>
+                    <span class="tech-item">seaborn</span>
+                    <span class="tech-item">Google Slides API</span>
+                    <span class="tech-item">Google Drive API</span>
+                    <span class="tech-item">Google Sheets API</span>
+                    <span class="tech-item">NumPy</span>
+                    <span class="tech-item">regex</span>
+                    <span class="tech-item">JSON</span>
+                    <span class="tech-item">Google Cloud</span>
+                    <span class="tech-item">textstat</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Impact -->
+        <section class="section metrics">
+            <div class="container">
+                <h2 class="section-title">Business Impact & Results</h2>
+                <p class="section-subtitle">
+                    Quantifiable improvements in operational efficiency and analytical capabilities for educational program evaluation
+                </p>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-number">90%+</span>
+                        <span class="metric-label">Reduction in Manual Work</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">30+</span>
+                        <span class="metric-label">Bootcamps Processed</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">5min</span>
+                        <span class="metric-label">Report Generation Time</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">100%</span>
+                        <span class="metric-label">Analytical Consistency</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <p style="font-size: 1.2rem; opacity: 0.9; max-width: 800px; margin: 0 auto;">
+                        The platform transformed Eskwelabs' educational analytics from a manual, days-long process into an automated, 
+                        5-minute workflow, enabling consistent analysis across diverse training programs while maintaining analytical 
+                        rigor and professional presentation standards for all stakeholder communications.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript for smooth interactions -->
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.arch-card, .feature-card, .metric-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Dynamic navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
